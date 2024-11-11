@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Analytics Recrutamento & Seleção</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Tecnologia Única</div>
+        <div class="current-page">Vagas</div>
+        
+        <!--
+<ul id="menu">
+    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    <li class="menu-close" onclick="closeMenu()">&#10005;</li>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="vagas.html">Vagas</a></li>
+    <li><a href="candidatos.html">Candidatos</a></li>
+    <li><a href="recrutadoras.html">Recrutadoras</a></li>
+</ul>
+-->
+
+    </nav>
+
+    <div class="filter-bar">
+        <div class="filter-option" id="home"><a href="home.html" class="inactive">Home</a></div>
+        <div class="filter-option" id="vagas"><a href="vagas.html" class="inactive">Vagas</a></div>
+        <div class="filter-option" id="candidatos"><a href="candidatos.html" class="inactive">Candidatos</a></div>
+        <div class="filter-option" id="recrutadoras"><a href="recrutadoras.html" class="inactive">Recrutadoras</a></div>
+    </div>
+
+    
+    <div class="kpi-panel">
+        <div class="kpi">
+            <h3>Tempo Médio em Cada Etapa (dias)</h3>
+            <p id="tempo-medio-etapa">3 dias</p>
+        </div>
+        <div class="kpi">
+            <h3>Taxa de Aprovação por Etapa (%)</h3>
+            <p id="taxa-aprovacao">70%</p>
+        </div>
+        <div class="kpi">
+            <h3>Número Médio de Entrevistas por Vaga</h3>
+            <p id="numero-entrevistas">2.5</p>
+        </div>
+        <div class="kpi">
+            <h3>Taxa de Aceitação da Oferta (%)</h3>
+            <p id="taxa-aceitacao">85%</p>
+        </div>
+    </div>
+    
+
+    <div class="charts">
+        <div class="chart-container">
+            <h6>Tempo médio por etapa</h6>
+            <canvas id="tempoMedioEtapaChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>TAxa de Aprovação por Etapa</h6>
+            <canvas id="taxaAprovacaoEtapaChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>Número de Entrevistas por vaga</h6>
+            <canvas id="numeroEntrevistasChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>Taxa de Aceitação da Offer</h6>
+            <canvas id="taxaAceitacaoChart" width="200" height="100"></canvas>
+        </div>
+    </div>
+    
+    <div class="charts">
+        <div class="chart-container">
+            <h3>Principais Motivos de Rejeição</h3>
+            <canvas id="motivosRejeicaoChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Funil de Recrutamento</h3>
+            <canvas id="funilRecrutamentoChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Custo por Contratação</h3>
+            <canvas id="custoContratacaoChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Distribuição de Candidatos por Área de Atuação</h3>
+            <canvas id="distribuicaoCandidatosChart" width="200" height="100"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        // Função para alternar menu
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            menu.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            var menu = document.getElementById('menu');
+            menu.classList.remove('active');
+        }
+
+        // Função para definir filtro ativo
+        function setActiveFilter(selectedFilter) {
+            const filters = ['semanal', 'mensal', 'semestral', 'anual'];
+
+            filters.forEach(filter => {
+                const filterElement = document.getElementById(filter);
+                if (filter === selectedFilter) {
+                    filterElement.classList.add('active');
+                    filterElement.classList.remove('inactive');
+                } else {
+                    filterElement.classList.remove('active');
+                }
+            });
+
+            updateKPI(selectedFilter);  // Atualiza KPIs com base no filtro
+            updateCharts(selectedFilter);  // Atualiza gráficos
+        }
+
+
+const motivosRejeicaoChart = new Chart(document.getElementById('motivosRejeicaoChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Falta de Qualificação', 'Expectativa Salarial', 'Incompatibilidade Cultural', 'Experiência Insuficiente'],
+        datasets: [{
+            label: 'Motivos de Rejeição',
+            data: [40, 25, 20, 15],
+            backgroundColor: ['rgba(153, 0, 0, 0.9)', 'rgba(179, 0, 0, 0.9)', 'rgba(204, 0, 0, 0.9)', 'rgba(230, 0, 0, 0.9)']
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Gráfico: Funil de Recrutamento
+const funilRecrutamentoChart = new Chart(document.getElementById('funilRecrutamentoChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Incrição', 'Teste', 'Entrevistados RH', 'Enviado p/ Gestor', 'Entrevista Gestor', 'Ofertas Enviada'],
+        datasets: [{
+            label: 'Funil de Recrutamento',
+            data: [1000, 600, 300, 100, 50],
+            backgroundColor: ['rgba(153, 0, 0, 0.9)', 'rgba(179, 0, 0, 0.9)', 'rgba(204, 0, 0, 0.9)', 'rgba(230, 0, 0, 0.9)']
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        scales: {
+            x: { beginAtZero: true }
+        }
+    }
+});
+
+// Gráfico: Custo por Contratação (Barras)
+const custoContratacaoChart = new Chart(document.getElementById('custoContratacaoChart'), {
+    type: 'bar',
+    data: {
+        labels: ['LinkedIn', 'Consultorias', 'Indicações', 'Banco de Talentos'],
+        datasets: [{
+            label: 'Custo por Contratação (R$)',
+            data: [1500, 3000, 500, 1000],
+            backgroundColor: ['rgba(153, 0, 0, 0.9)', 'rgba(179, 0, 0, 0.9)', 'rgba(204, 0, 0, 0.9)', 'rgba(230, 0, 0, 0.9)']
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Gráfico: Distribuição de Candidatos por Área de Atuação (Pizza)
+const distribuicaoCandidatosChart = new Chart(document.getElementById('distribuicaoCandidatosChart'), {
+    type: 'bar',
+    data: {
+        labels: ['TI', 'Marketing', 'Finanças', 'RH', 'Vendas'],
+        datasets: [{
+            label: 'Distribuição por Área',
+            data: [30, 20, 15, 10, 25],
+            backgroundColor: ['rgba(153, 0, 0, 0.9)', 'rgba(179, 0, 0, 0.9)', 'rgba(204, 0, 0, 0.9)', 'rgba(230, 0, 0, 0.9)']
+        }]
+    }
+});
+
+
+// Inicializar com filtro mensal
+setActiveFilter('mensal');
+
+    </script>
+        
+    </body>
+</html>

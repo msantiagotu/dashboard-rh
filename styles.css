@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.current-page {
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    top: 20px; /* Ajuste conforme necessário para posicionar verticalmente */
+    color: white;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+nav {
+    background-color: #a1443a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav .logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav #menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #333;
+    border-radius: 0 0 0 8px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    height: 100%;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding-top: 60px;
+}
+
+nav #menu.active {
+    transform: translateX(0);
+}
+
+nav #menu li {
+    margin: 10px 0;
+    padding: 0 15px;
+}
+
+nav #menu li a {
+    display: block;
+    text-decoration: none; 
+    color: #fff; 
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid transparent; 
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+nav #menu li a:hover {
+    background-color: #c0392b;
+    color: #fff; /* Mantém a cor branca ao passar o mouse */
+    border-bottom: 2px solid #fff;
+}
+
+.menu-toggle {
+    display: block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 24px;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    color: #000;
+}
+
+.filter-option {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.filter-option.active {
+    background-color: #c0392b;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.filter-option:hover {
+    background-color: #e74c3c;
+}
+
+.filter-bar .filter-option a {
+    text-decoration: none !important; 
+    color: #000 !important; 
+}
+
+
+.kpi-panel {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+}
+
+.kpi {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 250px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.kpi h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #c0392b;
+}
+
+.kpi p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 30px;
+    gap: 20px;
+}
+
+.chart-container {
+    flex: 1 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 24%;
+    margin-bottom: 20px;
+}
+
+.highlight-section {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px;
+    gap: 20px;
+}
+
+.highlight-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 50%;
+}
+
+.highlight-card h3 {
+    color: #c0392b;
+    margin-bottom: 10px;
+}
+
+.recent-job {
+    clear: both; /* Limpa flutuações, fazendo este card ficar abaixo dos outros */
+    margin: 30px;
+    flex: 90%; /* Faz este card ocupar toda a largura disponível */
+}
+
+.button {
+    display: inline-block;
+    background-color: #c0392b;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #e74c3c;
+}
+
+.login-container {
+    background-color: white; /* Fundo branco para o formulário */
+    padding: 30px 40px; /* Aumenta o espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+    width: 400px; /* Aumenta a largura do contêiner */
+    max-width: 90%; /* Para que o contêiner não ultrapasse a tela em dispositivos pequenos */
+    text-align: center; /* Centraliza o texto dentro do contêiner */
+}
+
+.outer-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Faz com que ocupe toda a altura da tela */
+}
+
+.login-container h1 {
+    margin-bottom: 20px; /* Espaço abaixo do título */
+    color: #c0392b; /* Cor do título */
+    text-align: center; /* Centraliza o título */
+}
+
+.login-container input {
+    width: 100%; /* Largura total do campo */
+    padding: 10px; /* Espaçamento interno */
+    margin: 10px 0; /* Margem vertical */
+    border: 1px solid #ccc; /* Borda cinza clara */
+    border-radius: 5px; /* Bordas arredondadas */
+    transition: border-color 0.3s; /* Transição de cor da borda */
+}
+
+.login-container input:focus {
+    border-color: #c0392b; /* Muda a cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão */
+}
+
+.login-container button {
+    width: 100%; /* Largura total do botão */
+    padding: 10px; /* Espaçamento interno */
+    background-color: #c0392b; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Sem borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Muda o cursor ao passar por cima */
+    transition: background-color 0.3s; /* Transição para a cor de fundo */
+}
+
+.login-container button:hover {
+    background-color: #e74c3c; /* Muda a cor de fundo ao passar o mouse */
+}
+
+#error-message {
+    margin-top: 10px; /* Margem acima da mensagem de erro */
+    text-align: center; /* Centraliza a mensagem */
+}
+

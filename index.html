@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Recrutamento</title>
+    <link rel="stylesheet" href="styles.css"> <
+</head>
+<body>
+    <div class="outer-container">
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div>
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="error-message" style="color: red; display: none;"></div>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o envio do formulário
+        
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+        
+            // Validação com os dados das recrutadoras
+            const validUsers = {
+                'danielle': 'danielleunica123',
+                'marina': 'marinaunica123',
+                'juliana': 'julianaunica123',
+                'ingrid': 'ingridunica123',
+                'isabel':'isabelunica123',
+                'jeff':'jeffunica123'
+            };
+        
+            // Verifica se o usuário e a senha estão corretos
+            if (validUsers[username] === password) {
+                // Redireciona para a página das recrutadoras após login bem-sucedido
+                window.location.href = 'home.html';
+            } else {
+                // Exibe mensagem de erro
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = 'Usuário ou senha inválidos.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

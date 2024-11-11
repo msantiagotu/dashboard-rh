@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Analytics Recrutamento & Seleção</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Tecnologia Única</div>
+        <div class="current-page">Home</div>
+        
+        <!--
+<ul id="menu">
+    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    <li class="menu-close" onclick="closeMenu()">&#10005;</li>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="vagas.html">Vagas</a></li>
+    <li><a href="candidatos.html">Candidatos</a></li>
+    <li><a href="recrutadoras.html">Recrutadoras</a></li>
+</ul>
+-->
+
+    </nav>
+
+    <div class="filter-bar">
+        <div class="filter-option" id="home"><a href="home.html" class="inactive">Home</a></div>
+        <div class="filter-option" id="vagas"><a href="vagas.html" class="inactive">Vagas</a></div>
+        <div class="filter-option" id="candidatos"><a href="candidatos.html" class="inactive">Candidatos</a></div>
+        <div class="filter-option" id="recrutadoras"><a href="recrutadoras.html" class="inactive">Recrutadoras</a></div>
+    </div>
+    
+    
+
+    <div class="kpi-panel">
+        <div class="kpi">
+            <h3>Número Total de Candidatos</h3>
+            <p id="total-candidatos"> </p>
+        </div>
+        <div class="kpi">
+            <h3>Vagas Abertas</h3>
+            <p id="vagas-abertas"> </p>
+        </div>
+        <div class="kpi">
+            <h3>Taxa de Contratação</h3>
+            <p id="taxa-contratacao"> </p>
+        </div>
+        <div class="kpi">
+            <h3>Tempo Médio para Preencher uma Vaga</h3>
+            <p id="tempo-medio"> </p>
+        </div>
+    </div>
+
+    <div class="charts">
+        <div class="chart-container">
+            <h6>Número de Candidatos</h6>
+            <canvas id="candidatosChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>Número de Vagas Abertas</h6>
+            <canvas id="vagasChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>Taxa de Eficácia do Processo</h6>
+            <canvas id="taxaContratacaoChart" width="200" height="100"></canvas>
+        </div>
+        <div class="chart-container">
+            <h6>Tempo Médio para Preencher uma Vaga</h6>
+            <canvas id="tempoMedioChart" width="200" height="100"></canvas>
+        </div>
+    </div>
+
+    <div class="highlight-section">
+        <div class="highlight-card offer-candidates">
+            <h3>Candidatos com Oferta Enviada</h3>
+                <strong>Nome:</strong> <-~script/excel> - <strong>Vaga:</strong> <-~script/excel> - <strong>Recrutadora:</strong> <-~script/excel> <br>
+                <strong>Nome:</strong> <-~script/excel> - <strong>Vaga:</strong> <-~script/excel> - <strong>Recrutadora:</strong> <-~script/excel> <br>
+                <strong>Nome:</strong> <-~script/excel> - <strong>Vaga:</strong> <-~script/excel> - <strong>Recrutadora:</strong> <-~script/excel> <br>
+        </div>
+        <div class="highlight-card monday-starters">
+            <h3>Candidatos que Começam na Segunda-feira</h3>
+                <strong>Nome:</strong> <-~script/excel> - <strong>Vaga:</strong> <-~script/excel> - <strong>Recrutadora:</strong> <-~script/excel> <br>
+                <strong>Nome:</strong> <-~script/excel> - <strong>Vaga:</strong> <-~script/excel> - <strong>Recrutadora:</strong> <-~script/excel> <br>
+        </div>
+    </div>
+    <div>
+        <div class="highlight-card recent-job">
+            <h3>Vaga Mais Recente</h3>
+            <p><strong>Posição:</strong> Desenvolvedor Full-Stack</p>
+            <p><strong>Cliente:</strong> Tecnologia Única</p>
+            <p><strong>Data de Abertura:</strong> 22 de Setembro, 2024</p>
+            <a href="vaga-detalhes.html" class="button">Ver Mais Detalhes</a>
+        </div>
+    </div>
+
+    <script>
+        // Função para simular dados
+function fetchData() {
+    return {
+        totalCandidatos: 1200,
+        vagasAbertas: 35,
+        taxaContratacao: 30, // em porcentagem
+        tempoMedio: 25, // em dias
+        candidatosPorMes: [100, 150, 120, 180, 170, 160, 140, 130, 145, 155, 180, 200],
+        vagasAbertasPorMes: [20, 18, 25, 28, 30, 27, 26, 24, 29, 33, 35, 40],
+        taxaContratacaoPorMes: [25, 28, 30, 32, 33, 29, 27, 30, 31, 32, 33, 35],
+        tempoMedioPorMes: [28, 26, 25, 24, 27, 26, 25, 24, 23, 25, 24, 23],
+    };
+}
+
+// Função para preencher os KPIs
+function updateKPIs(data) {
+    document.getElementById("total-candidatos").textContent = data.totalCandidatos;
+    document.getElementById("vagas-abertas").textContent = data.vagasAbertas;
+    document.getElementById("taxa-contratacao").textContent = data.taxaContratacao + "%";
+    document.getElementById("tempo-medio").textContent = data.tempoMedio + " dias";
+}
+
+// Função para criar os gráficos
+function createCharts(data) {
+        // Gráfico de Número de Candidatos
+        new Chart(document.getElementById("candidatosChart"), {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Candidatos",
+                    data: data.candidatosPorMes,
+                    borderColor: "#e74c3c", // Vermelho intenso
+                    backgroundColor: "rgba(231, 76, 60, 0.2)", // Vermelho claro com transparência
+                    fill: true
+                }]
+            }
+        });
+    
+        // Gráfico de Número de Vagas Abertas
+        new Chart(document.getElementById("vagasChart"), {
+            type: 'bar',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Vagas Abertas",
+                    data: data.vagasAbertasPorMes,
+                    backgroundColor: "#c0392b", // Vermelho escuro
+                    borderColor: "#a93226", // Vermelho profundo para as bordas
+                    borderWidth: 1
+                }]
+            }
+        });
+    
+        // Gráfico de Taxa de Eficácia do Processo
+        new Chart(document.getElementById("taxaContratacaoChart"), {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Taxa de Contratação (%)",
+                    data: data.taxaContratacaoPorMes,
+                    borderColor: "#cd6155", // Tom mais suave de vermelho
+                    backgroundColor: "rgba(205, 97, 85, 0.2)", // Fundo vermelho claro com transparência
+                    fill: true
+                }]
+            }
+        });
+    
+        // Gráfico de Tempo Médio para Preencher uma Vaga
+        new Chart(document.getElementById("tempoMedioChart"), {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Tempo Médio (dias)",
+                    data: data.tempoMedioPorMes,
+                    borderColor: "#d98880", // Vermelho suave
+                    backgroundColor: "rgba(217, 136, 128, 0.2)", // Fundo avermelhado com transparência
+                    fill: true
+                }]
+            }
+        });
+    }
+    
+
+// Função para preencher os destaques de candidatos
+function updateHighlightSections(data) {
+    const ofertaContainer = document.querySelector(".offer-candidates");
+    const comecaContainer = document.querySelector(".monday-starters");
+
+    data.candidatosComOferta.forEach(candidato => {
+        const candidatoInfo = document.createElement("p");
+        candidatoInfo.innerHTML = `<strong>Nome:</strong> ${candidato.nome} - <strong>Vaga:</strong> ${candidato.vaga} - <strong>Recrutadora:</strong> ${candidato.recrutadora}`;
+        ofertaContainer.appendChild(candidatoInfo);
+    });
+
+    data.candidatosQueComecam.forEach(candidato => {
+        const candidatoInfo = document.createElement("p");
+        candidatoInfo.innerHTML = `<strong>Nome:</strong> ${candidato.nome} - <strong>Vaga:</strong> ${candidato.vaga} - <strong>Recrutadora:</strong> ${candidato.recrutadora}`;
+        comecaContainer.appendChild(candidatoInfo);
+    });
+}
+
+// Inicializa os dados e gráficos ao carregar a página
+document.addEventListener("DOMContentLoaded", function () {
+    const data = fetchData();
+    updateKPIs(data);
+    createCharts(data);
+    updateHighlightSections(data);
+});
+    
+    </script>
+</body>
+</html>
